@@ -8,154 +8,118 @@
   <artifactId>Educat</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
-    <java.version>1.8</java.version>
 
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
   </properties>
-  <parent>
-    <groupId>at.stderr</groupId>
-    <artifactId>maven-parent</artifactId>
-    <version>2.3.0</version>
-  </parent>
+
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
+        <version>3.14.0</version>
       </plugin>
-
       <plugin>
-        <groupId>net.masterthought</groupId>
-        <artifactId>maven-cucumber-reporting</artifactId>
-        <version>3.8.0</version>
-        <executions>
-          <execution>
-            <id>execution</id>
-            <!-- <phase>verify</phase> -->
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <projectName>IVLCucumberDemo</projectName>  <!-- Replace with project name -->
-              <outputDirectory>target/cucumber-reports/advanced-reports</outputDirectory>
-              <cucumberOutput>target/cucumber-reports/CucumberTestReport.json</cucumberOutput>
-              <buildNumber>1</buildNumber>
-              <parallelTesting>false</parallelTesting>
-            </configuration>
-          </execution>
-        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+        <configuration>
+          <properties>
+            <!-- Work around. Surefire does not include enough
+                 information to disambiguate between different
+                 examples and scenarios. -->
+            <configurationParameters>
+              cucumber.junit-platform.naming-strategy=long
+            </configurationParameters>
+          </properties>
+        </configuration>
       </plugin>
     </plugins>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>1.2.0</version>
+        <scope>test</scope>
+      </dependency>
 
+      <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.12.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-bom</artifactId>
+        <version>7.21.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-bom</artifactId>
+        <version>3.27.3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
+
     <dependency>
       <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-testng</artifactId>
-      <version>2.0.0</version>
+      <artifactId>cucumber-java</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit-platform-engine</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-jvm</artifactId>
-      <version>1.2.5</version>
-      <type>pom</type>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-jvm-deps</artifactId>
-      <version>1.0.5</version>
-      <scope>provided</scope>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
 
+
+    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-api -->
     <dependency>
-      <groupId>net.masterthought</groupId>
-      <artifactId>cucumber-reporting</artifactId>
-      <version>4.11.2</version>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-api</artifactId>
+      <version>4.27.0</version>
     </dependency>
+
+
 
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>4.29.0</version>
+      <version>4.27.0</version>
     </dependency>
 
 
-    <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>5.5.0</version>
-      <scope>test</scope>
-    </dependency>
 
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
-      <version>3.0</version>
-    </dependency>
-
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>2.9.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>2.9.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.9.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20190722</version>
-    </dependency>
   </dependencies>
 </project>
